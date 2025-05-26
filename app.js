@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Register Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('https://api.appacertos.club/sw.js')
       .then(function(registration) {
         console.log('Service Worker registered with scope:', registration.scope);
       })
