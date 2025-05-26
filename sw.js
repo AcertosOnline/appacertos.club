@@ -1,9 +1,9 @@
 const CACHE_NAME = 'appacertos-cache-v1';
 const urlsToCache = [
   '/',
-  '/index.html',
-  '/app.js',
-  '/manifest.json'
+  '/https://www.appacertos.club/',
+  'https://api.appacertos.club/app.js',
+  'https://api.appacertos.club/manifest.json'
 ];
 
 // Install the service worker and cache essential files
