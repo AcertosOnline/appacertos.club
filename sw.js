@@ -1,27 +1,42 @@
+const CACHE_NAME = 'appacertos-cache-v1';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/app.js',
+  '/manifest.json'
+];
+
+// Install the service worker and cache essential files
 self.addEventListener('install', (event) => {
-  event.waitUntil(self.skipWaiting());
-  console.log('Service Worker installed');
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log('Opened cache');
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
 
+// Activate the service worker and clean up old caches
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
-  console.log('Service Worker activated');
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
 });
 
+// Fetch event to serve cached content when offline
 self.addEventListener('fetch', (event) => {
-  const targetApiUrl = 'https://api.trivoweb.com/api/online/cassino/finish?VERSAO=6';
-  if (event.request.url === targetApiUrl) {
-    console.log('Detected API call to:', targetApiUrl);
-    // Send message to all clients to trigger redirect
-    self.clients.matchAll().then((clients) => {
-      clients.forEach((client) => {
-        client.postMessage({
-          type: 'REDIRECT',
-          url: 'https://example.com' // Replace with your target redirect URL
-        });
-      });
-    });
-    // Allow the API call to proceed
-    event.respondWith(fetch(event.request));
-  }
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
 });
