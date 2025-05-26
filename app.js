@@ -1,3 +1,4 @@
+<script>
 document.addEventListener('DOMContentLoaded', function() {
   // Inject HTML for PWA "Add to Home Screen" link
   const pwaLink = `
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (choiceResult.outcome === 'accepted') {
           console.log('User accepted the PWA prompt');
         }
-        deferred952Prompt = null;
+        deferredPrompt = null;
         addToHome.style.display = 'none';
       });
     });
@@ -50,4 +51,16 @@ document.addEventListener('DOMContentLoaded', function() {
   if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
     addToHome.style.display = 'none';
   }
+
+  // Register Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(registration) {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch(function(error) {
+        console.error('Service Worker registration failed:', error);
+      });
+  }
 });
+</script>
