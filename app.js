@@ -1,56 +1,60 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Inject HTML for PWA "Add to Home Screen" link
-  const pwaLink = `
-    <a id="addToHome" href="#" style="display: none; position: fixed; top: 20px; right: 20px; background-color: #007bff; color: white; padding: 10px; border-radius: 5px; text-decoration: none; z-index: 10000;">Adicionar à tela inicial</a>
+  // Inject HTML for PWA "Add to Home Screen" banner with icon
+  const pwaBanner = `
+    <div id="pwaBanner" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #007bff; color: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10000; display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center;">
+        <img src="/icons/icon-192.png" alt="PWA Icon" style="width: 40px; height: 40px; margin-right: 10px;">
+        <span style="font-family: Arial, sans-serif;">Instale nosso app para uma melhor experiência!</span>
+      </div>
+      <button id="installPWA" style="background: white; color: #007bff; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-weight: bold;">Instalar</button>
+    </div>
   `;
-  document.body.insertAdjacentHTML('beforeend', pwaLink);
+  document.body.insertAdjacentHTML('beforeend', pwaBanner);
 
-  // Inject minimal CSS for the PWA link
-  const style = document.createElement('style');
-  style.textContent = `
-    #addToHome {
-      font-size: 14px;
-      font-family: Arial, sans-serif;
+  const pwaBannerEl = document.getElementById('pwaBanner');
+  const installBtn = document.getElementById('installPWA');
+
+  let deferredPrompt;
+
+  // Handle "beforeinstallprompt"
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showPWABanner();
+  });
+
+  // Show banner unless in standalone mode
+  function showPWABanner() {
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+      pwaBannerEl.style.display = 'none';
+    } else {
+      pwaBannerEl.style.display = 'flex';
     }
-    @media (max-width: 600px) {
-      #addToHome {
-        font-size: 12px;
-        padding: 8px;
-      }
+  }
+
+  installBtn.addEventListener('click', function() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the PWA prompt');
+        } else {
+          console.log('User dismissed the PWA prompt');
+        }
+        deferredPrompt = null;
+        pwaBannerEl.style.display = 'none';
+      });
     }
-  `;
-  document.head.appendChild(style);
+  });
 
   // Modify the URL in the browser's navigation bar
   const domain = window.location.origin;
   const newUrl = `${domain}/pr/fC7hpda9`;
   window.history.replaceState(null, null, newUrl);
 
-  // PWA: Handle "Add to Home Screen" prompt
-  const addToHome = document.getElementById('addToHome');
-  let deferredPrompt;
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    addToHome.style.display = 'block';
-    addToHome.addEventListener('click', () => {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the PWA prompt');
-        }
-        deferredPrompt = null;
-        addToHome.style.display = 'none';
-      });
-    });
-  });
-
-  // Hide "Add to Home Screen" if in standalone mode
-  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-    addToHome.style.display = 'none';
-  }
+  // Check at load
+  showPWABanner();
 
   // Register Service Worker
   if ('serviceWorker' in navigator) {
