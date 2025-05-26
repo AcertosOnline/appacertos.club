@@ -1,4 +1,3 @@
-<script>
 document.addEventListener('DOMContentLoaded', function() {
   // Inject HTML for PWA "Add to Home Screen" banner with icon
   const pwaBanner = `
@@ -67,4 +66,3 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 });
-</script>
