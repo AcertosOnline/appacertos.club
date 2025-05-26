@@ -1,4 +1,3 @@
-// Execute when the page loads
 document.addEventListener('DOMContentLoaded', function() {
   // Inject HTML for floating button and menu
   const floatingElements = `
@@ -26,8 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
       justify-content: center;
       font-size: 24px;
       cursor: pointer;
-      z-index: 1000;
+      z-index: 10000; /* Increased z-index to ensure visibility */
       user-select: none;
+      touch-action: none; /* Prevent default touch behaviors */
     }
     .floating-menu {
       position: fixed;
@@ -37,8 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
       border: 1px solid #ccc;
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      z-index: 1001;
+      z-index: 10001; /* Higher than button */
       padding: 10px;
+      min-width: 150px; /* Ensure menu is wide enough */
     }
     .floating-menu a {
       display: block;
@@ -49,6 +50,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     .floating-menu a:hover {
       background-color: #f8f9fa;
+    }
+    @media (max-width: 600px) {
+      .floating-menu {
+        min-width: 120px; /* Smaller width for mobile */
+        font-size: 14px; /* Slightly smaller text */
+      }
+      .floating-button {
+        width: 50px; /* Slightly smaller button for mobile */
+        height: 50px;
+        font-size: 20px;
+      }
     }
   `;
   document.head.appendChild(style);
@@ -68,8 +80,14 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateMenuPosition() {
     const buttonRect = floatingButton.getBoundingClientRect();
     const menuRect = floatingMenu.getBoundingClientRect();
-    floatingMenu.style.left = `${currentX - menuRect.width - 10}px`; // To the left of the button
-    floatingMenu.style.top = `${currentY - menuRect.height - 10}px`; // Above the button
+    // Ensure menu stays within viewport
+    let menuX = currentX - menuRect.width - 10;
+    let menuY = currentY - menuRect.height - 10;
+    // Adjust if menu goes off-screen
+    if (menuX < 0) menuX = currentX + buttonRect.width + 10; // Move to right if no space on left
+    if (menuY < 0) menuY = currentY + 10; // Move below if no space above
+    floatingMenu.style.left = `${menuX}px`;
+    floatingMenu.style.top = `${menuY}px`;
     floatingMenu.style.right = 'auto';
     floatingMenu.style.bottom = 'auto';
   }
@@ -77,8 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize button position in the bottom-right corner
   function initializeButtonPosition() {
     const buttonRect = floatingButton.getBoundingClientRect();
-    currentX = window.innerWidth - buttonRect.width - 20; // 20px from right edge
-    currentY = window.innerHeight - buttonRect.height - 20; // 20px from bottom edge
+    currentX = window.innerWidth - buttonRect.width - 20;
+    currentY = window.innerHeight - buttonRect.height - 20;
     floatingButton.style.left = `${currentX}px`;
     floatingButton.style.top = `${currentY}px`;
     floatingButton.style.right = 'auto';
@@ -102,32 +120,34 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeButtonPosition();
   }
 
-  // Toggle menu visibility
+  // Toggle menu visibility with touch and click support
   floatingButton.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
+    console.log('Button clicked, toggling menu'); // Debug log
     floatingMenu.style.display = floatingMenu.style.display === 'flex' ? 'none' : 'flex';
-    updateMenuPosition(); // Ensure menu is positioned correctly when opened
+    if (floatingMenu.style.display === 'flex') {
+      updateMenuPosition();
+      console.log('Menu displayed at:', floatingMenu.style.left, floatingMenu.style.top); // Debug log
+    }
   });
 
-  // Drag for mobile devices
+  // Handle touch events for dragging
   floatingButton.addEventListener('touchstart', (e) => {
     e.preventDefault();
     initialX = e.touches[0].clientX - currentX;
     initialY = e.touches[0].clientY - currentY;
     isDragging = true;
+    console.log('Touchstart, dragging started'); // Debug log
   });
 
   floatingButton.addEventListener('touchmove', (e) => {
     if (isDragging) {
       let newX = e.touches[0].clientX - initialX;
       let newY = e.touches[0].clientY - initialY;
-
-      // Constrain movement within the window
       const buttonRect = floatingButton.getBoundingClientRect();
       newX = Math.max(0, Math.min(newX, window.innerWidth - buttonRect.width));
       newY = Math.max(0, Math.min(newY, window.innerHeight - buttonRect.height));
-
       currentX = newX;
       currentY = newY;
       floatingButton.style.left = `${currentX}px`;
@@ -135,17 +155,17 @@ document.addEventListener('DOMContentLoaded', function() {
       floatingButton.style.right = 'auto';
       floatingButton.style.bottom = 'auto';
       updateMenuPosition();
-
-      // Save position to localStorage
       localStorage.setItem('floatingButtonPosition', JSON.stringify({ x: currentX, y: currentY }));
+      console.log('Touchmove, button at:', currentX, currentY); // Debug log
     }
   });
 
   floatingButton.addEventListener('touchend', () => {
     isDragging = false;
+    console.log('Touchend, dragging stopped'); // Debug log
   });
 
-  // Drag for desktop
+  // Handle mouse events for dragging
   floatingButton.addEventListener('mousedown', (e) => {
     e.preventDefault();
     initialX = e.clientX - currentX;
@@ -157,12 +177,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (isDragging) {
       let newX = e.clientX - initialX;
       let newY = e.clientY - initialY;
-
-      // Constrain movement within the window
       const buttonRect = floatingButton.getBoundingClientRect();
       newX = Math.max(0, Math.min(newX, window.innerWidth - buttonRect.width));
       newY = Math.max(0, Math.min(newY, window.innerHeight - buttonRect.height));
-
       currentX = newX;
       currentY = newY;
       floatingButton.style.left = `${currentX}px`;
@@ -170,8 +187,6 @@ document.addEventListener('DOMContentLoaded', function() {
       floatingButton.style.right = 'auto';
       floatingButton.style.bottom = 'auto';
       updateMenuPosition();
-
-      // Save position to localStorage
       localStorage.setItem('floatingButtonPosition', JSON.stringify({ x: currentX, y: currentY }));
     }
   });
@@ -228,4 +243,12 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!floatingButton.contains(e.target) && !floatingMenu.contains(e.target)) {
+      floatingMenu.style.display = 'none';
+      console.log('Clicked outside, menu closed'); // Debug log
+    }
+  });
 });
