@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (choiceResult.outcome === 'accepted') {
           console.log('User accepted the PWA prompt');
         }
-        deferredPrompt = null;
+        deferred952Prompt = null;
         addToHome.style.display = 'none';
       });
     });
@@ -49,18 +49,5 @@ document.addEventListener('DOMContentLoaded', function() {
   // Hide "Add to Home Screen" if in standalone mode
   if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
     addToHome.style.display = 'none';
-  }
-
-  // Register Service Worker
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('https://api.appacertos.club/sw.js')
-        .then((registration) => {
-          console.log('Service Worker registered:', registration);
-        })
-        .catch((error) => {
-          console.error('Error registering Service Worker:', error);
-        });
-    });
   }
 });
