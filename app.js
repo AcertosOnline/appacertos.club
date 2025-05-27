@@ -45,11 +45,6 @@ const pwaBanner = `
     }
   });
 
-  // Modify the URL in the browser's navigation bar
-  const domain = window.location.origin;
-  const newUrl = `${domain}/pr/fC7hpda9`;
-  window.history.replaceState(null, null, newUrl);
-
   // Check at load
   showPWABanner();
 
