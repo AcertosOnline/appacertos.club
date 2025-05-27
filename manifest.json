@@ -8,12 +8,12 @@
   "theme_color": "#f3670f",
   "icons": [
     {
-      "src": "/pwa/192.png",
+      "src": "https://api.appacertos.club/pwa/192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/pwa/512.png",
+      "src": "https://api.appacertos.club/pwa/512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
