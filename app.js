@@ -50,7 +50,7 @@ const pwaBanner = `
 
   // Register Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('https://api.appacertos.club/sw.js')
+    navigator.serviceWorker.register('/sw.js')
       .then(function(registration) {
         console.log('Service Worker registered with scope:', registration.scope);
       })
