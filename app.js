@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Inject HTML for PWA "Add to Home Screen" banner with icon
+  // Inject HTML for PWA "Add to Home Screen" banner with icon and install SVG
   const pwaBanner = `
     <div id="pwaBanner" style="display: none; position: fixed; bottom: 20px; left: 10px; right: 10px; background: #ffffff; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); z-index: 10000; display: flex; align-items: center; justify-content: center; cursor: pointer;">
       <img src="https://api.appacertos.club/pwa/512.png" alt="PWA Icon" style="width: 40px; height: 40px; border-radius: 8px; margin-right: 10px;">
-      <span style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; font-weight: bold;">Instalar</span>
+      <span style="font-family: Arial, sans-serif; color: #65656578; font-size: 16px; font-weight: bold;">Instalar</span>
+      <img src="https://api.appacertos.club/pwa/install.svg" alt="Install Icon" style="width: 24px; height: 24px; margin-left: 10px;">
     </div>
   `;
   document.body.insertAdjacentHTML('beforeend', pwaBanner);
