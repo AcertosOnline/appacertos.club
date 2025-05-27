@@ -1,18 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Inject HTML for PWA "Add to Home Screen" banner with icon
   const pwaBanner = `
-    <div id="pwaBanner" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #007bff; color: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10000; display: flex; align-items: center; justify-content: space-between;">
-      <div style="display: flex; align-items: center;">
-        <img src="/icons/icon-192.png" alt="PWA Icon" style="width: 40px; height: 40px; margin-right: 10px;">
-        <span style="font-family: Arial, sans-serif;">Instale nosso app para uma melhor experiência!</span>
-      </div>
-      <button id="installPWA" style="background: white; color: #007bff; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-weight: bold;">Instalar</button>
+    <div id="pwaBanner" style="display: none; position: fixed; bottom: 20px; left: 10px; right: 10px; background: #ffffff; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); z-index: 10000; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+      <img src="/icons/icon-192.png" alt="PWA Icon" style="width: 40px; height: 40px; border-radius: 8px; margin-right: 10px;">
+      <span style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; font-weight: bold;">Instalar</span>
     </div>
   `;
   document.body.insertAdjacentHTML('beforeend', pwaBanner);
 
   const pwaBannerEl = document.getElementById('pwaBanner');
-  const installBtn = document.getElementById('installPWA');
 
   let deferredPrompt;
 
@@ -32,7 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  installBtn.addEventListener('click', function() {
+  // Make entire banner clickable
+  pwaBannerEl.addEventListener('click', function() {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
