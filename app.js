@@ -59,10 +59,3 @@ const pwaBanner = `
       });
   }
 });
-
-
-    // Redireciona para o site externo apenas em modo standalone
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      window.location.href = 'https://app.acertos.club/pr/fC7hpda9';
-    }
-
