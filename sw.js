@@ -3,8 +3,7 @@ const urlsToCache = [
   '/',
   '/https://www.appacertos.club/',
   'https://api.appacertos.club/app.js',
-  'https://api.appacertos.club/manifest.json',
-  'https://app.acertos.club/pr/fC7hpda9'
+  'https://api.appacertos.club/manifest.json'
 ];
 
 // Install the service worker and cache essential files
