@@ -2,7 +2,7 @@
   "name": "Acertos Club",
   "short_name": "Acertos Club",
   "description": "Adicione Acertos Club na tela inicial do seu celular!",
-  "start_url": "/",
+  "start_url": "https://www.appacertos.club/",
   "display": "standalone",
   "background_color": "#f3670f",
   "theme_color": "#f3670f",
