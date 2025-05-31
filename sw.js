@@ -1,7 +1,7 @@
 const CACHE_NAME = 'appacertos-cache-v1';
 const urlsToCache = [
   '/',
-  '/https://www.appacertos.club/',
+  'https://www.appacertos.club/',
   'https://api.appacertos.club/app.js',
   'https://api.appacertos.club/manifest.json'
 ];
