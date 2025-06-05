@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div id="menuModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 10000; justify-content: center; align-items: center;">
       <div style="background: #ffffff; width: 80%; max-width: 400px; border-radius: 8px; padding: 20px; position: relative;">
-        <button id="closeModal" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+        <button id="closeModal" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer;">×</button>
         <ul style="list-style: none; padding: 0; margin: 0;">
           <li id="installOption" style="padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; font-family: Arial, sans-serif; font-size: 16px; color: #202020;">Instalar</li>
           <li style="padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; font-family: Arial, sans-serif; font-size: 16px; color: #202020;">
@@ -100,13 +100,24 @@ document.addEventListener('DOMContentLoaded', function() {
   let xOffset = 0;
   let yOffset = 0;
 
+  // Touch events for mobile
   hamburgerMenu.addEventListener('touchstart', dragStart);
   hamburgerMenu.addEventListener('touchend', dragEnd);
   hamburgerMenu.addEventListener('touchmove', drag);
 
+  // Mouse events for desktop
+  hamburgerMenu.addEventListener('mousedown', dragStart);
+  document.addEventListener('mouseup', dragEnd);
+  document.addEventListener('mousemove', drag);
+
   function dragStart(e) {
-    initialX = e.touches[0].clientX - xOffset;
-    initialY = e.touches[0].clientY - yOffset;
+    if (e.type === 'touchstart') {
+      initialX = e.touches[0].clientX - xOffset;
+      initialY = e.touches[0].clientY - yOffset;
+    } else {
+      initialX = e.clientX - xOffset;
+      initialY = e.clientY - yOffset;
+    }
     isDragging = true;
   }
 
@@ -119,8 +130,13 @@ document.addEventListener('DOMContentLoaded', function() {
   function drag(e) {
     if (isDragging) {
       e.preventDefault();
-      currentX = e.touches[0].clientX - initialX;
-      currentY = e.touches[0].clientY - initialY;
+      if (e.type === 'touchmove') {
+        currentX = e.touches[0].clientX - initialX;
+        currentY = e.touches[0].clientY - initialY;
+      } else {
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+      }
       xOffset = currentX;
       yOffset = currentY;
 
