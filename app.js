@@ -37,9 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
         message.innerHTML = 'Para jogar no cassino, abra o menu <span style="font-size: 1.2em;">☰</span> e escolha a opção "Jogar cassino"';
         message.style.cssText = `
             margin: 20px 0;
-            font-size: 18px;
-            font-weight: 500;
-            line-height: 1.6;
+            font-size: 16px;
+            line-height: 1.5;
             color: #202020;
             font-family: Arial, sans-serif;
         `;
@@ -54,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: 500;
             margin-top: 10px;
             font-family: Arial, sans-serif;
         `;
@@ -84,9 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Show modal after 10 seconds when page is fully loaded
-        window.addEventListener('load', function() {
-            setTimeout(showModal, 10000);
-        });
+        // Show modal when page is fully loaded
+        window.addEventListener('load', showModal);
     }
 });
