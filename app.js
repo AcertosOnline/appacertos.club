@@ -66,21 +66,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show modal
         function showModal() {
             modalOverlay.style.display = 'flex';
-            localStorage.setItem('welcomeModalShown', 'true');
         }
 
-        // Hide modal
+        // Hide modal and set localStorage
         function hideModal() {
             modalOverlay.style.display = 'none';
+            localStorage.setItem('welcomeModalShown', 'true');
         }
 
         // Event listeners
         okButton.addEventListener('click', hideModal);
-        modalOverlay.addEventListener('click', function(e) {
-            if (e.target === modalOverlay) {
-                hideModal();
-            }
-        });
 
         // Show modal when page is fully loaded
         window.addEventListener('load', showModal);
