@@ -4,9 +4,9 @@ const urlsToCache = [
   'https://www.appacertos.club/',
   'https://api.appacertos.club/app.js',
   'https://api.appacertos.club/manifest.json',
-  'https://api.appacertos.club/192.png',
-  'https://api.appacertos.club/512.png',
-  'https://api.appacertos.club/install.svg',
+  'https://api.appacertos.club/pwa/192.png',
+  'https://api.appacertos.club/pwa/512.png',
+  'https://api.appacertos.club/banner.webp'
 ];
 
 // Install the service worker and cache essential files
