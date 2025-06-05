@@ -1,4 +1,4 @@
-const CACHE_NAME = 'appacertos-cache-v1';
+const CACHE_NAME = 'appacertos-cache-v2';
 const urlsToCache = [
   '/',
   'https://www.appacertos.club/',
