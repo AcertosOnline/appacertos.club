@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Check if modal has been shown before
-    if (!localStorage.getItem('modalShown')) {
+    if (!localStorage.getItem('welcomeModalShown')) {
         // Create modal elements
         const modalOverlay = document.createElement('div');
-        modalOverlay.className = 'modal-overlay';
+        modalOverlay.className = 'welcome-modal-overlay';
         modalOverlay.style.cssText = `
             position: fixed;
             top: 0;
@@ -11,25 +11,25 @@ document.addEventListener('DOMContentLoaded', function() {
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 9999;
+            z-index: 10002;
             display: none;
             backdrop-filter: blur(5px);
         `;
 
         const modal = document.createElement('div');
-        modal.className = 'modal-content';
+        modal.className = 'welcome-modal-content';
         modal.style.cssText = `
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: white;
+            background: #ffffff;
             padding: 20px;
             border-radius: 8px;
             max-width: 400px;
             width: 90%;
             text-align: center;
-            z-index: 10000;
+            z-index: 10003;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         `;
 
@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
             margin: 20px 0;
             font-size: 16px;
             line-height: 1.5;
+            color: #202020;
+            font-family: Arial, sans-serif;
         `;
 
         const okButton = document.createElement('button');
@@ -52,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cursor: pointer;
             font-size: 16px;
             margin-top: 10px;
+            font-family: Arial, sans-serif;
         `;
 
         // Append elements
@@ -63,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show modal
         function showModal() {
             modalOverlay.style.display = 'flex';
-            localStorage.setItem('modalShown', 'true');
+            localStorage.setItem('welcomeModalShown', 'true');
         }
 
         // Hide modal
