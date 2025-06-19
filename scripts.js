@@ -9,6 +9,10 @@ function toggleCotacoes() {
 /* Scroll and Load Animations for Section Elements */
 function handleSectionVisibility(sectionId) {
     const section = document.querySelector(`#${sectionId}`);
+    if (!section) {
+        console.warn(`Section with ID "${sectionId}" not found.`);
+        return;
+    }
     const fadeElements = section.querySelectorAll('.fade-in');
     fadeElements.forEach(element => {
         const elementTop = element.getBoundingClientRect().top;
@@ -22,6 +26,8 @@ function handleSectionVisibility(sectionId) {
 function setupSectionAnimations() {
     const sections = ['cotacoes', 'bonus', 'beneficios', 'responsabilidade'];
     sections.forEach(sectionId => {
+        const section = document.querySelector(`#${sectionId}`);
+        console.log(`Section ${sectionId}:`, section ? 'Found' : 'Not found');
         document.addEventListener('scroll', () => handleSectionVisibility(sectionId));
         window.addEventListener('load', () => handleSectionVisibility(sectionId));
     });
