@@ -24,7 +24,7 @@ function handleSectionVisibility(sectionId) {
 }
 
 function setupSectionAnimations() {
-    const sections = ['cotacoes', 'bonus', 'beneficios', 'responsabilidade'];
+    const sections = ['cotacoes', 'bonus', 'beneficios'];
     sections.forEach(sectionId => {
         const section = document.querySelector(`#${sectionId}`);
         console.log(`Section ${sectionId}:`, section ? 'Found' : 'Not found');
