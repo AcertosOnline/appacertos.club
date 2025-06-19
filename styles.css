@@ -31,11 +31,6 @@ header {
     padding: 40px 0;
     background: linear-gradient(180deg, #000000, #011f45); 
 }
-
-header img {
-    max-width: 200px;
-}
-
 header p {
     font-size: 24px;
     font-weight: bold;
@@ -46,7 +41,6 @@ header p {
     padding-left: 10px;  /* Espaço à esquerda */
     padding-right: 10px; /* Espaço à direita */
 }
-
 
 /* Floating Button Styles */
 .floating-button {
