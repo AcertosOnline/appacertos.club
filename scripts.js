@@ -27,38 +27,6 @@ function setupSectionAnimations() {
     });
 }
 
-/* Update WhatsApp and Register Button Links */
-function updateLinks() {
-    const whatsappLink = document.getElementById('whatsapp-link');
-    const registerButton = document.getElementById('register-button');
-    
-    const defaultValues = {
-        whatsapp: '5583993708505',
-        promoterCode: 'XIx8p5TQ'
-    };
-    
-    const nonGoogleValues = {
-        whatsapp: '5583991607943',
-        promoterCode: 'wd9DTgj0'
-    };
-    
-    // Check if referrer is from Google
-    const isGoogleReferrer = document.referrer.includes('google.com');
-    
-    // Select values based on referrer
-    const finalWhatsapp = isGoogleReferrer ? defaultValues.whatsapp : nonGoogleValues.whatsapp;
-    const finalPromoterCode = isGoogleReferrer ? defaultValues.promoterCode : nonGoogleValues.promoterCode;
-    
-    // Remove '+' from WhatsApp number if present
-    const cleanWhatsapp = finalWhatsapp.replace('+', '');
-    
-    const defaultMessage = encodeURIComponent('Olá, quero saber mais sobre o VaiDarBoa!');
-    whatsappLink.href = `https://wa.me/${cleanWhatsapp}?text=${defaultMessage}`;
-    registerButton.onclick = function() {
-        window.location.href = `https://app.77xbrasil.com.br/pr/${finalPromoterCode}`;
-    };
-}
-
 /* Footer Section Toggling */
 function showSection(sectionId) {
     document.querySelectorAll('.content-section').forEach(section => {
