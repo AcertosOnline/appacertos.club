@@ -233,12 +233,6 @@ h2::after {
     background: linear-gradient(0deg, #000000, #011f45);
 }
 
-#cotacoes img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-}
-
 .expandable-container {
     cursor: pointer;
     display: inline-block;
